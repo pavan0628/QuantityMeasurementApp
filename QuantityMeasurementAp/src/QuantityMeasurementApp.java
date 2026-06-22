@@ -1,6 +1,6 @@
 
 // QuantityMeasurementApp.java
-//UC1 : Feet measurement equality
+//UC2 : Feet and Inches measurement equality
 //This class is responsible for comparing two numerical values measured in feet
 public class QuantityMeasurementApp {
 
@@ -37,12 +37,46 @@ public class QuantityMeasurementApp {
         }
     }
 
-    //main method to demonstrate UC1 functionality
-    public static void main(String[] args) {
-        Feet feet1 = new Feet(1.0);
-        Feet feet2 = new Feet(1.0);
+    //Inches class represnting a measurent in inches
+    public static class Inches{
+        private final double value;
 
-        System.out.println("Are the two feet measurements equal? "+feet1.equals(feet2));
+        public Inches(double value){
+            this.value=value;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this==obj) return true;
+            if (obj==null) return false;
+            if (this.getClass() != obj.getClass()) return false;
+            Inches other=(Inches) obj;
+            return Double.compare(this.value,other.value)==0;
+
+        }
+    }
+
+    //static method to check equality of two feet values.
+    public static boolean areFeetEqual(double value1,double value2){
+        Feet feet1=new Feet(value1);
+        Feet feet2=new Feet(value2);
+
+        return feet1.equals(feet2);
+    }
+
+    //static method to check equality of two inch values.
+    public static boolean areInchEqual(double value1,double value2){
+        Inches inches1=new Inches(value1);
+        Inches inches2=new Inches(value2);
+
+        return inches1.equals(inches2);
+    }
+
+    //main method to demonstrate UC2 functionality
+    public static void main(String[] args) {
+
+        System.out.println("Are the two feet measurements equal? "+areFeetEqual(1.0,3.0));
+        System.out.println("Are the two inches measurements equal? "+areInchEqual(2.0,2.0));
     }
 
 }
