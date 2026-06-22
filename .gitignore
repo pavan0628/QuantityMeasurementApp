@@ -1,0 +1,25 @@
+### VS Code ###
+.vscode/
+
+# Compiled class files
+*.class
+
+# Packaged Java files
+*.jar
+
+# Log files
+*.log
+
+# Other File Exclusions
+.DS_Store
+*.iml
+
+# IntelliJ IDEA
+.idea/
+
+# Build Folders Exclusion
+target/
+bin/
+out/
+build/
+dist/
