@@ -1,41 +1,66 @@
 
 // QuantityMeasurementApp.java
-//UC2 : Feet and Inches measurement equality
-//This class is responsible for comparing two numerical values measured in feet
+//UC3 : Generic QuantityLength clss using DRY principle
+// Refactors Feet and inches into a single class with unit abstraction
 public class QuantityMeasurementApp {
 
-    /**
-     *Inner class representing a measurement in feet
-     * Encapsulates the value and ensures immutability
-     */
-    public static class Feet{
-        private final double value; // Encapsulated measurement value
+        public enum LengthUnit{
+            FEET(1.0),   //1 foot = 1 foot
+            INCH(1.0/12.0); //1 inch = 1/12 foot
 
-        /**
-         * constructor to initialize the feet measurement.
-         * @param value numerical value in feet
-         */
-        public Feet(double value){
-            this.value=value;
+            private  final double conversionFactorToFeet;
+
+            LengthUnit(double conversionFactorToFeet){
+                this.conversionFactorToFeet=conversionFactorToFeet;
+            }
+
+            //return the conversion factor to feet
+            public double getConversionFactorToFeet(){
+                return conversionFactorToFeet;
+            }
+
+        }
+
+        public static class QuantityLength{
+            private final double value;
+            private final LengthUnit unit;
+
+            public QuantityLength(double value, LengthUnit unit){
+
+                if(unit==null){
+                    throw new IllegalArgumentException("Unit type cannot be null");
+                }
+                this.value=value;
+                this.unit=unit;
+
+            }
+
+            //conerts the value into feet for comparision
+            private double toFeet(){
+                return value * unit.getConversionFactorToFeet();
+            }
+
+            //to compare quantitylength objects by converting to feet
+            @Override
+            public boolean equals(Object obj) {
+
+                if(this==obj) return true;
+
+                if (obj==null) return false;
+
+                if(this.getClass()!=obj.getClass()) return false;
+
+
+                QuantityLength other=(QuantityLength) obj;
+
+                return Double.compare(this.toFeet(), other.toFeet())==0;
+
+            }
+
         }
 
 
-        @Override
-        public boolean equals(Object obj) {
 
-            if(this==obj) return true;
-
-            if (obj==null) return false;
-
-            if(this.getClass()!=obj.getClass()) return false;
-
-
-            Feet other=(Feet) obj;
-
-            return Double.compare(this.value, other.value)==0;
-
-        }
-    }
 
     //Inches class represnting a measurent in inches
     public static class Inches{
@@ -56,27 +81,19 @@ public class QuantityMeasurementApp {
         }
     }
 
-    //static method to check equality of two feet values.
-    public static boolean areFeetEqual(double value1,double value2){
-        Feet feet1=new Feet(value1);
-        Feet feet2=new Feet(value2);
 
-        return feet1.equals(feet2);
-    }
 
-    //static method to check equality of two inch values.
-    public static boolean areInchEqual(double value1,double value2){
-        Inches inches1=new Inches(value1);
-        Inches inches2=new Inches(value2);
-
-        return inches1.equals(inches2);
-    }
-
-    //main method to demonstrate UC2 functionality
+    //main method to demonstrate UC3 functionality
     public static void main(String[] args) {
+        QuantityLength q1=new QuantityLength(1.0,LengthUnit.FEET);
+        QuantityLength q2=new QuantityLength(12.0, LengthUnit.INCH);
 
-        System.out.println("Are the two feet measurements equal? "+areFeetEqual(1.0,3.0));
-        System.out.println("Are the two inches measurements equal? "+areInchEqual(2.0,2.0));
+        System.out.println("Are the two feet measurements equal? "+q1.equals(q2));
+
+        QuantityLength q3=new QuantityLength(1.0, LengthUnit.INCH);
+        QuantityLength q4=new QuantityLength(1.0, LengthUnit.INCH);
+
+        System.out.println("Are the two inches measurements equal? "+q3.equals(q4));
     }
 
 }
