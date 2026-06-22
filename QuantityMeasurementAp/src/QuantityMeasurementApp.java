@@ -1,12 +1,15 @@
 
 // QuantityMeasurementApp.java
-//UC3 : Generic QuantityLength clss using DRY principle
-// Refactors Feet and inches into a single class with unit abstraction
+//UC4 Extended Unit Support(Yards and Centimeters)
+
 public class QuantityMeasurementApp {
 
         public enum LengthUnit{
             FEET(1.0),   //1 foot = 1 foot
-            INCH(1.0/12.0); //1 inch = 1/12 foot
+            INCH(1.0/12.0),
+            //1 inch = 1/12 foot
+            YARD(3.0), //1 yard= 3feet
+            CENTIMETER(0.0328084);  //1cm=0.0328084 feet(since 1cm = 0.393701 in)
 
             private  final double conversionFactorToFeet;
 
@@ -40,20 +43,26 @@ public class QuantityMeasurementApp {
                 return value * unit.getConversionFactorToFeet();
             }
 
+            private static final double EPSILON = 1e-6;
+
             //to compare quantitylength objects by converting to feet
             @Override
             public boolean equals(Object obj) {
 
                 if(this==obj) return true;
 
-                if (obj==null) return false;
+                if (obj==null) {
+                    return false;
+                }
 
-                if(this.getClass()!=obj.getClass()) return false;
+                if(this.getClass()!=obj.getClass()) {
+                    return false;
+                }
 
 
                 QuantityLength other=(QuantityLength) obj;
 
-                return Double.compare(this.toFeet(), other.toFeet())==0;
+                return Math.abs(this.toFeet()-other.toFeet())<EPSILON;
 
             }
 
@@ -62,38 +71,22 @@ public class QuantityMeasurementApp {
 
 
 
-    //Inches class represnting a measurent in inches
-    public static class Inches{
-        private final double value;
-
-        public Inches(double value){
-            this.value=value;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this==obj) return true;
-            if (obj==null) return false;
-            if (this.getClass() != obj.getClass()) return false;
-            Inches other=(Inches) obj;
-            return Double.compare(this.value,other.value)==0;
-
-        }
-    }
-
 
 
     //main method to demonstrate UC3 functionality
     public static void main(String[] args) {
-        QuantityLength q1=new QuantityLength(1.0,LengthUnit.FEET);
-        QuantityLength q2=new QuantityLength(12.0, LengthUnit.INCH);
+        QuantityLength yard=new QuantityLength(1.0,LengthUnit.YARD);
+        QuantityLength feet=new QuantityLength(3.0, LengthUnit.FEET);
 
-        System.out.println("Are the two feet measurements equal? "+q1.equals(q2));
+        System.out.println("1 Yard equals 3 feet? "+yard.equals(feet));
 
-        QuantityLength q3=new QuantityLength(1.0, LengthUnit.INCH);
-        QuantityLength q4=new QuantityLength(1.0, LengthUnit.INCH);
+        QuantityLength inches =new QuantityLength(36.0, LengthUnit.INCH);
+        System.out.println("1 yard equals 36 inches? "+ yard.equals(inches));
 
-        System.out.println("Are the two inches measurements equal? "+q3.equals(q4));
+
+        QuantityLength cm=new QuantityLength(1.0, LengthUnit.CENTIMETER);
+        QuantityLength inch=new QuantityLength(0.393700787, LengthUnit.INCH);
+        System.out.println("Are the two inches measurements equal? "+cm.equals(inch));
     }
 
 }
