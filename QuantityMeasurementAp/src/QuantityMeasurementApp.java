@@ -3,7 +3,7 @@
 //UC4 Extended Unit Support(Yards and Centimeters)
 
 //QuantityMeasurementApp.java
-//UC5: Unit-to-Unit conversion (Same Measurement Type)
+//UC6: Addition of two Length Units(Same Category)
 public class QuantityMeasurementApp {
 
         public enum LengthUnit{
@@ -80,30 +80,32 @@ public class QuantityMeasurementApp {
                 return valueInFeet/targetUnit.getConversionFactorToFeet();
             }
 
+            public QuantityLength add(QuantityLength other){
+                if(other==null){
+                    throw new IllegalArgumentException("Operand cannot be null");
+                }
+                double sumInFeet=this.toFeet()+other.toFeet();
+                double sumInTargetUnit=sumInFeet/this.unit.getConversionFactorToFeet();
+                return new QuantityLength(sumInTargetUnit,this.unit);
+            }
             @Override
             public String toString() {
                 return value+" "+unit.name();
             }
         }
 
-        //Static API for direct conversion without instantiating QuantityLength.
-        public static double convert(double value, LengthUnit source, LengthUnit target){
-            QuantityLength q=new QuantityLength(value,source);
-            return q.convertTo(target);
-        }
 
 
 
 
 
 
-    //main method to demonstrate UC3 functionality
     public static void main(String[] args) {
-        System.out.println("1 foot in inches = "+convert(1.0,LengthUnit.FEET,LengthUnit.INCH));
-        System.out.println("3 yards in feet = "+convert(3.0,LengthUnit.YARD,LengthUnit.FEET));
-        System.out.println("36 inches in yards = "+convert(36.0, LengthUnit.INCH,LengthUnit.YARD));
-        System.out.println("1 cm in inches = "+ convert(1.0,LengthUnit.CENTIMETER,LengthUnit.INCH));
-        System.out.println("0 feet in inches = "+ convert(0.0, LengthUnit.FEET,LengthUnit.FEET));
+            QuantityLength feet=new QuantityLength(1.0, LengthUnit.FEET);
+            QuantityLength inches=new QuantityLength(12.0, LengthUnit.INCH);
+            QuantityLength result=feet.add(inches);
+            System.out.println("1 foot + 12 Inches = "+result); //expected 2.0 feet
+
 
         }
 
