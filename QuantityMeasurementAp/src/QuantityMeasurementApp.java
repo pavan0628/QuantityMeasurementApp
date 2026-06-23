@@ -3,7 +3,7 @@
 //UC4 Extended Unit Support(Yards and Centimeters)
 
 //QuantityMeasurementApp.java
-//UC6: Addition of two Length Units(Same Category)
+//UC6: Addition with target Unit specification(Same Category)
 public class QuantityMeasurementApp {
 
         public enum LengthUnit{
@@ -79,6 +79,21 @@ public class QuantityMeasurementApp {
                 double valueInFeet=this.toFeet();
                 return valueInFeet/targetUnit.getConversionFactorToFeet();
             }
+            //utility method used by add methods
+            private QuantityLength addInternal(QuantityLength other,
+                                               LengthUnit targetUnit){
+
+                double sumInFeet=
+                        this.toFeet()+other.toFeet();
+
+                double sumInTargetUnit=
+                        sumInFeet/
+                                targetUnit.getConversionFactorToFeet();
+
+                return new QuantityLength(
+                        sumInTargetUnit,
+                        targetUnit);
+            }
 
             public QuantityLength add(QuantityLength other){
                 if(other==null){
@@ -88,6 +103,22 @@ public class QuantityMeasurementApp {
                 double sumInTargetUnit=sumInFeet/this.unit.getConversionFactorToFeet();
                 return new QuantityLength(sumInTargetUnit,this.unit);
             }
+
+            //adds another quantitylength and returns result in specified target unit
+            public QuantityLength add(QuantityLength other,
+                                      LengthUnit targetUnit){
+
+                if(other==null){
+                    throw new IllegalArgumentException("Operand cannot be null");
+                }
+
+                if(targetUnit==null){
+                    throw new IllegalArgumentException("Target unit cannot be null");
+                }
+
+                return addInternal(other,targetUnit);
+            }
+
             @Override
             public String toString() {
                 return value+" "+unit.name();
@@ -101,12 +132,15 @@ public class QuantityMeasurementApp {
 
 
     public static void main(String[] args) {
-            QuantityLength feet=new QuantityLength(1.0, LengthUnit.FEET);
-            QuantityLength inches=new QuantityLength(12.0, LengthUnit.INCH);
-            QuantityLength result=feet.add(inches);
-            System.out.println("1 foot + 12 Inches = "+result); //expected 2.0 feet
+        QuantityLength feet= new QuantityLength(1.0, LengthUnit.FEET);
+
+        QuantityLength inches= new QuantityLength(12.0, LengthUnit.INCH);
 
 
+        QuantityLength result= feet.add(inches, LengthUnit.YARD);
+
+
+        System.out.println("1 foot + 12 inches in yards = " +result);
         }
 
 }
