@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-//UC10 : Generic Quantity Test Cases
+//UC11: Volume Measurement Equality, Conversion, and Addition (Litre, Millilitre, Gallon) Test Cases
 
 class QuantityMeasurementAppTest {
 
@@ -265,6 +265,157 @@ class QuantityMeasurementAppTest {
                 result);
 
     }
+    @Test
+    public void testEquality_LitreToLitre_SameValue() {
 
+        Quantity<VolumeUnit> v1 =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> v2 =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        assertTrue(v1.equals(v2));
+    }
+
+
+    @Test
+    public void testEquality_LitreToMillilitre_EquivalentValue() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> ml =
+                new Quantity<>(1000.0,
+                        VolumeUnit.MILLILITRE);
+
+        assertTrue(litre.equals(ml));
+    }
+
+
+    @Test
+    public void testEquality_GallonToLitre_EquivalentValue() {
+
+        Quantity<VolumeUnit> gallon =
+                new Quantity<>(1.0,
+                        VolumeUnit.GALLON);
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(3.78541,
+                        VolumeUnit.LITRE);
+
+        assertTrue(gallon.equals(litre));
+    }
+
+
+    @Test
+    public void testConversion_LitreToMillilitre() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> result =
+                litre.convertTo(
+                        VolumeUnit.MILLILITRE);
+
+        assertEquals(1000.0,
+                result.getValue(),
+                EPSILON);
+    }
+
+
+    @Test
+    public void testConversion_GallonToLitre() {
+
+        Quantity<VolumeUnit> gallon =
+                new Quantity<>(1.0,
+                        VolumeUnit.GALLON);
+
+        Quantity<VolumeUnit> result =
+                gallon.convertTo(
+                        VolumeUnit.LITRE);
+
+        assertEquals(3.78541,
+                result.getValue(),
+                EPSILON);
+    }
+
+
+    @Test
+    public void testAddition_LitrePlusMillilitre() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> ml =
+                new Quantity<>(1000.0,
+                        VolumeUnit.MILLILITRE);
+
+        Quantity<VolumeUnit> result =
+                litre.add(ml);
+
+        assertEquals(2.0,
+                result.getValue(),
+                EPSILON);
+    }
+
+
+    @Test
+    public void testAddition_ExplicitTargetUnit_Millilitre() {
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> ml =
+                new Quantity<>(1000.0,
+                        VolumeUnit.MILLILITRE);
+
+        Quantity<VolumeUnit> result =
+                litre.add(
+                        ml,
+                        VolumeUnit.MILLILITRE);
+
+        assertEquals(2000.0,
+                result.getValue(),
+                EPSILON);
+    }
+
+
+    @Test
+    public void testEquality_VolumeVsLength_Incompatible() {
+
+        Quantity<VolumeUnit> volume =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<LengthUnit> length =
+                new Quantity<>(1.0,
+                        LengthUnit.FEET);
+
+        assertFalse(volume.equals(length));
+    }
+
+
+    @Test
+    public void testVolumeUnitEnum_LitreConstant() {
+
+        assertEquals(1.0,
+                VolumeUnit.LITRE.getConversionFactor(),
+                EPSILON);
+    }
+
+
+    @Test
+    public void testVolumeUnitEnum_GallonConstant() {
+
+        assertEquals(3.78541,
+                VolumeUnit.GALLON.getConversionFactor(),
+                EPSILON);
+    }
 
 }

@@ -1,5 +1,5 @@
 //QuantityMeasurementApp.java
-//UC10 : Generic Quantity Measurement Application
+//UC11: Volume Measurement Equality, Conversion, and Addition (Litre, Millilitre, Gallon)
 
 public class QuantityMeasurementApp {
 
@@ -102,6 +102,26 @@ public class QuantityMeasurementApp {
                 kilogram,
                 gram,
                 WeightUnit.KILOGRAM);
+
+        Quantity<VolumeUnit> litre =
+                new Quantity<>(1.0,
+                        VolumeUnit.LITRE);
+
+        Quantity<VolumeUnit> ml =
+                new Quantity<>(1000.0,
+                        VolumeUnit.MILLILITRE);
+
+        System.out.println(
+                litre.equals(ml));
+
+        System.out.println(
+                litre.convertTo(
+                        VolumeUnit.MILLILITRE));
+
+        System.out.println(
+                litre.add(
+                        ml,
+                        VolumeUnit.LITRE));
 
     }
 
