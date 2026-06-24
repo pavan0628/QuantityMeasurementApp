@@ -1,5 +1,7 @@
-//QuantityMeasurementApp.java
-//UC11: Volume Measurement Equality, Conversion, and Addition (Litre, Millilitre, Gallon)
+//UC12: Subtraction and Division Operations on Quantity Measurements
+//Demonstrates subtraction and division for Length, Weight and Volume
+//Supports implicit and explicit target units
+//Validates immutability, cross-unit arithmetic and error handling
 
 public class QuantityMeasurementApp {
 
@@ -10,6 +12,42 @@ public class QuantityMeasurementApp {
         System.out.println(q1 + " equals "
                 + q2 + " = "
                 + q1.equals(q2));
+    }
+
+    public static <U extends IMeasurable>
+    void demonstrateSubtraction(
+
+            Quantity<U> first,
+
+            Quantity<U> second,
+
+            U targetUnit){
+
+
+
+        Quantity<U> result =
+
+                first.subtract(
+                        second,
+                        targetUnit);
+
+
+
+        System.out.println(
+
+                first
+
+                        +" - "
+
+                        +second
+
+                        +" = "
+
+                        +result
+
+        );
+
+
     }
 
 
@@ -37,91 +75,140 @@ public class QuantityMeasurementApp {
                 + q1.add(q2,
                 targetUnit));
     }
+    public static <U extends IMeasurable>
+    void demonstrateDivision(
+
+            Quantity<U> first,
+
+            Quantity<U> second){
+
+
+
+        double result =
+
+                first.divide(second);
+
+
+
+        System.out.println(
+
+                first
+
+                        +" / "
+
+                        +second
+
+                        +" = "
+
+                        +result
+
+        );
+
+    }
 
 
 
     public static void main(String[] args) {
 
 
+
         Quantity<LengthUnit> feet =
+
                 new Quantity<>(
-                        1.0,
+                        10,
                         LengthUnit.FEET);
 
-        Quantity<LengthUnit> inches =
+
+        Quantity<LengthUnit> inch =
+
                 new Quantity<>(
-                        12.0,
+                        6,
                         LengthUnit.INCH);
 
 
+        demonstrateSubtraction(
 
-        demonstrateEquality(
                 feet,
-                inches);
-
-
-        demonstrateConversion(
-                feet,
-                LengthUnit.INCH);
-
-
-
-        demonstrateAddition(
-                feet,
-                inches,
+                inch,
                 LengthUnit.FEET);
 
 
 
+        demonstrateDivision(
 
-        Quantity<WeightUnit> kilogram =
+                feet,
+
                 new Quantity<>(
-                        1.0,
+                        2,
+                        LengthUnit.FEET)
+
+        );
+        Quantity<WeightUnit> kg =
+
+                new Quantity<>(
+                        10,
                         WeightUnit.KILOGRAM);
 
 
+
         Quantity<WeightUnit> gram =
+
                 new Quantity<>(
-                        1000.0,
+                        5000,
                         WeightUnit.GRAM);
 
 
 
-        demonstrateEquality(
-                kilogram,
-                gram);
+        demonstrateSubtraction(
 
-
-        demonstrateConversion(
-                kilogram,
-                WeightUnit.GRAM);
-
-
-
-        demonstrateAddition(
-                kilogram,
+                kg,
                 gram,
                 WeightUnit.KILOGRAM);
 
+
+
+        demonstrateDivision(
+
+                kg,
+
+                new Quantity<>(
+                        5,
+                        WeightUnit.KILOGRAM)
+
+        );
         Quantity<VolumeUnit> litre =
-                new Quantity<>(1.0,
+
+                new Quantity<>(
+                        5,
                         VolumeUnit.LITRE);
 
+
+
         Quantity<VolumeUnit> ml =
-                new Quantity<>(1000.0,
+
+                new Quantity<>(
+                        500,
                         VolumeUnit.MILLILITRE);
 
-        System.out.println(
-                litre.equals(ml));
 
-        System.out.println(
-                litre.convertTo(
-                        VolumeUnit.MILLILITRE));
 
-        System.out.println(
-                litre.add(
-                        ml,
-                        VolumeUnit.LITRE));
+        demonstrateSubtraction(
+
+                litre,
+                ml,
+                VolumeUnit.LITRE);
+
+
+
+        demonstrateDivision(
+
+                litre,
+
+                new Quantity<>(
+                        10,
+                        VolumeUnit.LITRE)
+
+        );
 
     }
 

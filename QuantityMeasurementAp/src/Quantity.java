@@ -1,5 +1,7 @@
-//Quantity.java
-//UC10 : Generic Quantity Class using IMeasurable Interface
+//UC12: Generic Quantity Measurement System
+//Supports Equality, Conversion, Addition, Subtraction and Division
+//Operations across Length, Weight and Volume measurements
+//Maintains immutability and type safety using Generics
 
 public class Quantity<U extends IMeasurable> {
 
@@ -8,6 +10,89 @@ public class Quantity<U extends IMeasurable> {
 
     private static final double EPSILON = 1e-6;
 
+    /**
+     * Subtracts another quantity from this quantity.
+     */
+    public Quantity<U> subtract(Quantity<U> other) {
+
+        return subtract(other, this.unit);
+
+    }
+
+    /**
+     * Divides this quantity by another quantity.
+     */
+    public double divide(Quantity<U> other) {
+
+
+        if (other == null) {
+            throw new IllegalArgumentException(
+                    "Quantity cannot be null");
+        }
+
+
+        double firstBase =
+                unit.convertToBaseUnit(value);
+
+
+        double secondBase =
+                other.unit.convertToBaseUnit(other.value);
+
+
+
+        if (Double.compare(secondBase,0.0)==0) {
+
+            throw new ArithmeticException(
+                    "Division by zero");
+
+        }
+
+
+        return firstBase / secondBase;
+
+    }
+
+    /**
+     * Subtracts another quantity from this quantity.
+     */
+    public Quantity<U> subtract(Quantity<U> other,
+                                U targetUnit) {
+
+        if (other == null) {
+            throw new IllegalArgumentException(
+                    "Quantity cannot be null");
+        }
+
+        if (targetUnit == null) {
+            throw new IllegalArgumentException(
+                    "Target unit cannot be null");
+        }
+
+
+        double firstBase =
+                unit.convertToBaseUnit(value);
+
+        double secondBase =
+                other.unit.convertToBaseUnit(other.value);
+
+
+        double resultBase =
+                firstBase - secondBase;
+
+
+        double result =
+                targetUnit.convertFromBaseUnit(resultBase);
+
+
+        result = Math.round(result * 100.0)
+                / 100.0;
+
+
+        return new Quantity<>(
+                result,
+                targetUnit);
+
+    }
 
     public Quantity(double value,
                     U unit) {
@@ -25,6 +110,7 @@ public class Quantity<U extends IMeasurable> {
         this.value = value;
         this.unit = unit;
     }
+
 
 
     //converts current quantity into base unit
@@ -198,6 +284,7 @@ public class Quantity<U extends IMeasurable> {
 
         return unit;
     }
+
 
 
     @Override
