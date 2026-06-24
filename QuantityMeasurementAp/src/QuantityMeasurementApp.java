@@ -1,7 +1,5 @@
-//UC12: Subtraction and Division Operations on Quantity Measurements
-//Demonstrates subtraction and division for Length, Weight and Volume
-//Supports implicit and explicit target units
-//Validates immutability, cross-unit arithmetic and error handling
+
+//UC13: Centralized Arithmetic Logic to Enforce DRY in Quantity Operations
 
 public class QuantityMeasurementApp {
 

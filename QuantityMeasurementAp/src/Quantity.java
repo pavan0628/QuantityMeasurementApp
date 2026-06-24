@@ -1,14 +1,78 @@
-//UC12: Generic Quantity Measurement System
-//Supports Equality, Conversion, Addition, Subtraction and Division
-//Operations across Length, Weight and Volume measurements
-//Maintains immutability and type safety using Generics
-
+//UC13: Centralized Arithmetic Logic to Enforce DRY in Quantity Operations
 public class Quantity<U extends IMeasurable> {
+
 
     private final double value;
     private final U unit;
 
     private static final double EPSILON = 1e-6;
+
+
+    //UC13: Arithmetic Operations Enum (ADD, SUBTRACT, DIVIDE)
+    private enum ArithmeticOperation {
+
+
+        ADD {
+
+
+            @Override
+            double compute(double first,
+                           double second) {
+
+                return first + second;
+
+            }
+
+        },
+
+
+        SUBTRACT {
+
+
+            @Override
+            double compute(double first,
+                           double second) {
+
+                return first - second;
+
+            }
+
+        },
+
+
+        DIVIDE {
+
+
+            @Override
+            double compute(double first,
+                           double second) {
+
+
+                if (Double.compare(second, 0.0) == 0) {
+
+                    throw new ArithmeticException(
+                            "Division by zero");
+
+                }
+
+
+                return first / second;
+
+            }
+
+        };
+
+
+
+        abstract double compute(double first,
+                                double second);
+
+    }
+
+
+
+
+
 
     /**
      * Subtracts another quantity from this quantity.
@@ -220,7 +284,7 @@ public class Quantity<U extends IMeasurable> {
     }
 
 
-    //returns sum in first operand unit
+    ///UC13: Addition using centralized arithmetic helper
     public Quantity<U> add(
 
             Quantity<U> other) {
@@ -285,6 +349,70 @@ public class Quantity<U extends IMeasurable> {
         return unit;
     }
 
+    //UC13: Validates arithmetic operands and target unit
+    private void validateArithmeticOperands(
+            Quantity<U> other,
+            U targetUnit,
+            boolean targetRequired) {
+
+
+        if (other == null) {
+
+            throw new IllegalArgumentException(
+                    "Quantity cannot be null");
+
+        }
+
+
+        if (targetRequired &&
+                targetUnit == null) {
+
+
+            throw new IllegalArgumentException(
+                    "Target unit cannot be null");
+
+        }
+
+
+        if (unit.getClass() !=
+                other.unit.getClass()) {
+
+
+            throw new IllegalArgumentException(
+                    "Incompatible quantities");
+
+        }
+
+    }
+    //UC13: Performs arithmetic in base units using centralized helper logic
+    private double performBaseArithmetic(
+            Quantity<U> other,
+
+            ArithmeticOperation operation) {
+
+
+
+        double firstBase =
+
+                unit.convertToBaseUnit(
+                        value);
+
+
+
+        double secondBase =
+
+                other.unit.convertToBaseUnit(
+                        other.value);
+
+
+
+        return operation.compute(
+
+                firstBase,
+
+                secondBase);
+
+    }
 
 
     @Override

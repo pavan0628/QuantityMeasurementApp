@@ -1,5 +1,5 @@
 //WeightUnit.java
-//UC10 : WeightUnit Enum implementing IMeasurable
+
 
 public enum WeightUnit implements IMeasurable {
 

@@ -1,5 +1,5 @@
 //LengthUnit.java
-//UC10 : LengthUnit Enum implementing IMeasurable
+
 
 public enum LengthUnit implements IMeasurable {
 

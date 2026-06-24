@@ -3,9 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-//UC12: Subtraction and Division Operations on Quantity Measurements Test Cases
-//Tests subtraction, division, precision, immutability,
-//cross-category prevention and error handling scenarios
+//UC13: DRY Refactoring Validation and Behavior Preservation Test Cases
 
 class QuantityMeasurementAppTest {
 
@@ -1266,6 +1264,292 @@ class QuantityMeasurementAppTest {
 
     }
 
+
+
+    @Test
+    public void testValidation_NullTargetUnit_AddSubtractReject() {
+
+
+        Quantity<LengthUnit> first =
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> second =
+                new Quantity<>(
+                        5.0,
+                        LengthUnit.FEET);
+
+
+
+        assertThrows(
+                IllegalArgumentException.class,
+
+                () -> first.add(
+                        second,
+                        null));
+
+
+        assertThrows(
+                IllegalArgumentException.class,
+
+                () -> first.subtract(
+                        second,
+                        null));
+
+    }
+
+
+
+
+    @Test
+    public void testRounding_AddSubtract_TwoDecimalPlaces() {
+
+
+        Quantity<LengthUnit> first =
+                new Quantity<>(
+                        1.23,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> second =
+                new Quantity<>(
+                        0.01,
+                        LengthUnit.FEET);
+
+
+
+        Quantity<LengthUnit> result =
+                first.subtract(second);
+
+
+
+        assertEquals(
+                1.22,
+                result.getValue(),
+                EPSILON);
+
+    }
+
+
+
+
+    @Test
+    public void testRounding_Divide_NoRounding() {
+
+
+        Quantity<LengthUnit> first =
+                new Quantity<>(
+                        1.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> second =
+                new Quantity<>(
+                        3.0,
+                        LengthUnit.FEET);
+
+
+
+        double result =
+                first.divide(second);
+
+
+
+        assertEquals(
+                0.333333,
+                result,
+                EPSILON);
+
+    }
+
+
+
+
+    @Test
+    public void testImplicitTargetUnit_AddSubtract() {
+
+
+        Quantity<LengthUnit> feet =
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> inches =
+                new Quantity<>(
+                        12.0,
+                        LengthUnit.INCH);
+
+
+
+        Quantity<LengthUnit> addResult =
+                feet.add(inches);
+
+
+        Quantity<LengthUnit> subtractResult =
+                feet.subtract(inches);
+
+
+
+        assertEquals(
+                LengthUnit.FEET,
+                addResult.getUnit());
+
+
+        assertEquals(
+                LengthUnit.FEET,
+                subtractResult.getUnit());
+
+    }
+
+
+
+
+    @Test
+    public void testExplicitTargetUnit_AddSubtract_Overrides() {
+
+
+        Quantity<LengthUnit> feet =
+                new Quantity<>(
+                        1.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> inches =
+                new Quantity<>(
+                        12.0,
+                        LengthUnit.INCH);
+
+
+
+        Quantity<LengthUnit> result =
+                feet.add(
+                        inches,
+                        LengthUnit.INCH);
+
+
+
+        assertEquals(
+                LengthUnit.INCH,
+                result.getUnit());
+
+    }
+
+
+
+
+    @Test
+    public void testImmutability_AfterSubtract_ViaCentralizedHelper() {
+
+
+        Quantity<LengthUnit> first =
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> second =
+                new Quantity<>(
+                        5.0,
+                        LengthUnit.FEET);
+
+
+
+        Quantity<LengthUnit> result =
+                first.subtract(second);
+
+
+
+        assertNotSame(
+                first,
+                result);
+
+
+        assertEquals(
+                10.0,
+                first.getValue(),
+                EPSILON);
+
+    }
+
+
+
+
+    @Test
+    public void testImmutability_AfterDivide_ViaCentralizedHelper() {
+
+
+        Quantity<LengthUnit> first =
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> second =
+                new Quantity<>(
+                        5.0,
+                        LengthUnit.FEET);
+
+
+
+        first.divide(second);
+
+
+
+        assertEquals(
+                10.0,
+                first.getValue(),
+                EPSILON);
+
+    }
+
+
+
+
+    @Test
+    public void testArithmetic_Chain_Operations() {
+
+
+        Quantity<LengthUnit> first =
+                new Quantity<>(
+                        10.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> second =
+                new Quantity<>(
+                        2.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> third =
+                new Quantity<>(
+                        1.0,
+                        LengthUnit.FEET);
+
+
+        Quantity<LengthUnit> fourth =
+                new Quantity<>(
+                        3.0,
+                        LengthUnit.FEET);
+
+
+
+        double result =
+                first.add(second)
+                        .subtract(third)
+                        .divide(fourth);
+
+
+
+        assertEquals(
+                3.666667,
+                result,
+                EPSILON);
+
+    }
 
 
 

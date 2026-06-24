@@ -1,5 +1,4 @@
 //IMeasurable.java
-//UC10 : Common Interface for all Measurement Units
 
 public interface IMeasurable {
 
