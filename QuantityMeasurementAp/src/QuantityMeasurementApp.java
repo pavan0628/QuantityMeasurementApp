@@ -108,103 +108,167 @@ public class QuantityMeasurementApp {
 
     public static void main(String[] args) {
 
+//        Quantity<TemperatureUnit> celsius =
+//
+//                new Quantity<>(
+//
+//                        100,
+//
+//                        TemperatureUnit.CELSIUS);
+//
+//
+//
+//        demonstrateConversion(
+//
+//                celsius,
+//
+//                TemperatureUnit.FAHRENHEIT);
+//
+//
+//
+//        try {
+//
+//
+//            celsius.add(
+//
+//                    new Quantity<>(
+//
+//                            50,
+//
+//                            TemperatureUnit.CELSIUS));
+//
+//
+//        }
+//
+//        catch (
+//
+//                UnsupportedOperationException e) {
+//
+//
+//            System.out.println(
+//
+//                    e.getMessage());
+//
+//        }
+//
+//        Quantity<LengthUnit> feet =
+//
+//                new Quantity<>(
+//                        10,
+//                        LengthUnit.FEET);
+//
+//
+//        Quantity<LengthUnit> inch =
+//
+//                new Quantity<>(
+//                        6,
+//                        LengthUnit.INCH);
+//
+//
+//        demonstrateSubtraction(
+//
+//                feet,
+//                inch,
+//                LengthUnit.FEET);
+//
+//
+//
+//        demonstrateDivision(
+//
+//                feet,
+//
+//                new Quantity<>(
+//                        2,
+//                        LengthUnit.FEET)
+//
+//        );
+//        Quantity<WeightUnit> kg =
+//
+//                new Quantity<>(
+//                        10,
+//                        WeightUnit.KILOGRAM);
+//
+//
+//
+//        Quantity<WeightUnit> gram =
+//
+//                new Quantity<>(
+//                        5000,
+//                        WeightUnit.GRAM);
+//
+//
+//
+//        demonstrateSubtraction(
+//
+//                kg,
+//                gram,
+//                WeightUnit.KILOGRAM);
+//
+//
+//
+//        demonstrateDivision(
+//
+//                kg,
+//
+//                new Quantity<>(
+//                        5,
+//                        WeightUnit.KILOGRAM)
+//
+//        );
+//        Quantity<VolumeUnit> litre =
+//
+//                new Quantity<>(
+//                        5,
+//                        VolumeUnit.LITRE);
+//
+//
+//
+//        Quantity<VolumeUnit> ml =
+//
+//                new Quantity<>(
+//                        500,
+//                        VolumeUnit.MILLILITRE);
+//
+//
+//
+//        demonstrateSubtraction(
+//
+//                litre,
+//                ml,
+//                VolumeUnit.LITRE);
+//
+//
+//
+//        demonstrateDivision(
+//
+//                litre,
+//
+//                new Quantity<>(
+//                        10,
+//                        VolumeUnit.LITRE)
+//
+//        );
 
+        System.out.println(
 
-        Quantity<LengthUnit> feet =
-
-                new Quantity<>(
-                        10,
-                        LengthUnit.FEET);
-
-
-        Quantity<LengthUnit> inch =
-
-                new Quantity<>(
-                        6,
-                        LengthUnit.INCH);
-
-
-        demonstrateSubtraction(
-
-                feet,
-                inch,
-                LengthUnit.FEET);
-
-
-
-        demonstrateDivision(
-
-                feet,
-
-                new Quantity<>(
-                        2,
-                        LengthUnit.FEET)
+                TemperatureUnit.FAHRENHEIT
+                        .convertToBaseUnit(32)
 
         );
-        Quantity<WeightUnit> kg =
-
-                new Quantity<>(
-                        10,
-                        WeightUnit.KILOGRAM);
 
 
+        System.out.println(
 
-        Quantity<WeightUnit> gram =
-
-                new Quantity<>(
-                        5000,
-                        WeightUnit.GRAM);
-
-
-
-        demonstrateSubtraction(
-
-                kg,
-                gram,
-                WeightUnit.KILOGRAM);
-
-
-
-        demonstrateDivision(
-
-                kg,
-
-                new Quantity<>(
-                        5,
-                        WeightUnit.KILOGRAM)
+                TemperatureUnit.KELVIN
+                        .convertToBaseUnit(273.15)
 
         );
-        Quantity<VolumeUnit> litre =
-
-                new Quantity<>(
-                        5,
-                        VolumeUnit.LITRE);
 
 
+        System.out.println(
 
-        Quantity<VolumeUnit> ml =
-
-                new Quantity<>(
-                        500,
-                        VolumeUnit.MILLILITRE);
-
-
-
-        demonstrateSubtraction(
-
-                litre,
-                ml,
-                VolumeUnit.LITRE);
-
-
-
-        demonstrateDivision(
-
-                litre,
-
-                new Quantity<>(
-                        10,
-                        VolumeUnit.LITRE)
+                TemperatureUnit.FAHRENHEIT
+                        .convertToBaseUnit(-40)
 
         );
 

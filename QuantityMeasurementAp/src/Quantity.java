@@ -74,45 +74,94 @@ public class Quantity<U extends IMeasurable> {
 
 
 
-    /**
-     * Subtracts another quantity from this quantity.
-     */
-    public Quantity<U> subtract(Quantity<U> other) {
+    public Quantity<U> subtract(
 
-        return subtract(other, this.unit);
+            Quantity<U> other) {
+
+
+        unit.validateOperationSupport(
+
+                "SUBTRACT");
+
+
+        if (other != null) {
+
+            other.unit
+                    .validateOperationSupport(
+
+                            "SUBTRACT");
+
+        }
+
+
+        return subtract(
+
+                other,
+
+                this.unit);
 
     }
 
-    /**
-     * Divides this quantity by another quantity.
-     */
-    public double divide(Quantity<U> other) {
+    public double divide(
+
+            Quantity<U> other) {
+
+
+        unit.validateOperationSupport(
+
+                "DIVIDE");
+
+
+        if (other != null) {
+
+            other.unit
+                    .validateOperationSupport(
+
+                            "DIVIDE");
+
+        }
 
 
         if (other == null) {
+
             throw new IllegalArgumentException(
+
                     "Quantity cannot be null");
         }
 
 
         double firstBase =
-                unit.convertToBaseUnit(value);
+
+                unit.convertToBaseUnit(
+
+                        value);
 
 
         double secondBase =
-                other.unit.convertToBaseUnit(other.value);
+
+                other.unit.convertToBaseUnit(
+
+                        other.value);
 
 
 
-        if (Double.compare(secondBase,0.0)==0) {
+        if (Double.compare(
+
+                secondBase,
+
+                0.0) == 0) {
+
 
             throw new ArithmeticException(
+
                     "Division by zero");
 
         }
 
 
-        return firstBase / secondBase;
+        return firstBase /
+
+                secondBase;
 
     }
 
@@ -121,6 +170,19 @@ public class Quantity<U extends IMeasurable> {
      */
     public Quantity<U> subtract(Quantity<U> other,
                                 U targetUnit) {
+
+        unit.validateOperationSupport(
+                "SUBTRACT");
+
+
+        if (other != null) {
+
+            other.unit
+                    .validateOperationSupport(
+
+                            "SUBTRACT");
+
+        }
 
         if (other == null) {
             throw new IllegalArgumentException(
@@ -185,18 +247,22 @@ public class Quantity<U extends IMeasurable> {
 
 
     //compares quantity objects by converting to base unit
+    //compares quantity objects by converting to base unit
     @Override
     public boolean equals(Object obj) {
 
+        //same object reference
         if (this == obj) {
             return true;
         }
 
+        //null comparison
         if (obj == null) {
             return false;
         }
 
-        if (this.getClass() != obj.getClass()) {
+        //different object type
+        if (!(obj instanceof Quantity<?>)) {
             return false;
         }
 
@@ -204,18 +270,23 @@ public class Quantity<U extends IMeasurable> {
                 (Quantity<?>) obj;
 
 
-        //prevents length vs weight comparison
+        //prevents temperature vs length
+        //weight vs volume comparison
         if (this.unit.getClass()
                 != other.unit.getClass()) {
 
             return false;
         }
 
-        return Math.abs(
-                this.toBaseUnit()
-                        - other.toBaseUnit())
 
-                < EPSILON;
+        return Math.abs(
+
+                this.toBaseUnit()
+
+                        - other.toBaseUnit()
+
+        ) < EPSILON;
+
     }
 
 
@@ -284,10 +355,24 @@ public class Quantity<U extends IMeasurable> {
     }
 
 
-    ///UC13: Addition using centralized arithmetic helper
     public Quantity<U> add(
 
             Quantity<U> other) {
+
+
+        unit.validateOperationSupport(
+
+                "ADD");
+
+
+        if (other != null) {
+
+            other.unit
+                    .validateOperationSupport(
+
+                            "ADD");
+
+        }
 
 
         if (other == null) {
@@ -303,15 +388,30 @@ public class Quantity<U extends IMeasurable> {
                 other,
 
                 this.unit);
+
     }
 
 
-    //returns sum in specified target unit
     public Quantity<U> add(
 
             Quantity<U> other,
 
             U targetUnit) {
+
+
+        unit.validateOperationSupport(
+
+                "ADD");
+
+
+        if (other != null) {
+
+            other.unit
+                    .validateOperationSupport(
+
+                            "ADD");
+
+        }
 
 
         if (other == null) {
@@ -335,6 +435,7 @@ public class Quantity<U extends IMeasurable> {
                 other,
 
                 targetUnit);
+
     }
 
 

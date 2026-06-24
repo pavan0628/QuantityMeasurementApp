@@ -1,6 +1,19 @@
 //IMeasurable.java
 
+@FunctionalInterface
+interface SupportsArithmetic {
+
+    boolean isSupported();
+
+}
+
+
 public interface IMeasurable {
+
+
+    SupportsArithmetic supportsArithmetic =
+            () -> true;
+
 
     //returns conversion factor to base unit
     double getConversionFactor();
@@ -16,5 +29,25 @@ public interface IMeasurable {
 
     //returns unit name
     String getUnitName();
+
+
+
+    //returns true if arithmetic is supported
+    default boolean supportsArithmetic() {
+
+        return supportsArithmetic.isSupported();
+
+    }
+
+
+
+    //validates arithmetic support
+    default void validateOperationSupport(
+
+            String operation) {
+
+        //default implementation
+
+    }
 
 }
