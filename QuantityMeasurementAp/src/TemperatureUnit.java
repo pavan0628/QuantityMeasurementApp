@@ -1,11 +1,8 @@
-//TemperatureUnit.java
-
 public enum TemperatureUnit
         implements IMeasurable {
 
 
     CELSIUS {
-
 
         @Override
         public double convertToBaseUnit(
@@ -27,25 +24,20 @@ public enum TemperatureUnit
 
     FAHRENHEIT {
 
-
         @Override
         public double convertToBaseUnit(
                 double value) {
 
-            return (value - 32)
-                    * 5
-                    / 9;
+            return (value - 32) * 5 / 9;
 
         }
-
 
 
         @Override
         public double convertFromBaseUnit(
                 double baseValue) {
 
-            return (baseValue * 9 / 5)
-                    + 32;
+            return (baseValue * 9 / 5) + 32;
 
         }
 
@@ -53,7 +45,6 @@ public enum TemperatureUnit
 
 
     KELVIN {
-
 
         @Override
         public double convertToBaseUnit(
@@ -75,21 +66,36 @@ public enum TemperatureUnit
     };
 
 
+    //UC15 : Returns measurement type
+    @Override
+    public String getMeasurementType() {
 
-    private final SupportsArithmetic
-            supportsArithmetic =
-            () -> false;
+        return "TEMPERATURE";
+
+    }
+
+
+    //UC15 : Returns unit instance by name
+    @Override
+    public IMeasurable getUnitByName(
+
+            String unitName) {
+
+        return TemperatureUnit.valueOf(
+
+                unitName);
+
+    }
+
 
 
 
     @Override
     public boolean supportsArithmetic() {
 
-        return supportsArithmetic
-                .isSupported();
+        return false;
 
     }
-
 
 
     @Override
@@ -97,15 +103,12 @@ public enum TemperatureUnit
 
             String operation) {
 
-
-        throw new
-                UnsupportedOperationException(
+        throw new UnsupportedOperationException(
 
                 "Temperature does not support "
                         + operation);
 
     }
-
 
 
     @Override
@@ -114,7 +117,6 @@ public enum TemperatureUnit
         return 1.0;
 
     }
-
 
 
     @Override

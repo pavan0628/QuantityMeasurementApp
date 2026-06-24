@@ -13,6 +13,27 @@ public enum VolumeUnit implements IMeasurable {
         this.conversionFactor = conversionFactor;
     }
 
+    //UC15 : Returns measurement type
+    @Override
+    public String getMeasurementType() {
+
+        return "VOLUME";
+
+    }
+
+
+    //UC15 : Returns unit instance by name
+    @Override
+    public IMeasurable getUnitByName(
+
+            String unitName) {
+
+        return VolumeUnit.valueOf(
+
+                unitName);
+
+    }
+
     @Override
     public double getConversionFactor() {
         return conversionFactor;

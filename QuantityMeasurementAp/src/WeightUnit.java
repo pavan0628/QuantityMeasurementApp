@@ -19,6 +19,27 @@ public enum WeightUnit implements IMeasurable {
                 conversionFactorToKilogram;
     }
 
+    //UC15 : Returns measurement type
+    @Override
+    public String getMeasurementType() {
+
+        return "WEIGHT";
+
+    }
+
+
+    //UC15 : Returns unit instance by name
+    @Override
+    public IMeasurable getUnitByName(
+
+            String unitName) {
+
+        return WeightUnit.valueOf(
+
+                unitName);
+
+    }
+
 
     //returns conversion factor to kilogram
     @Override

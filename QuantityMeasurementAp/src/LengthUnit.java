@@ -19,7 +19,26 @@ public enum LengthUnit implements IMeasurable {
         this.conversionFactorToFeet =
                 conversionFactorToFeet;
     }
+    //UC15 : Returns measurement type
+    @Override
+    public String getMeasurementType() {
 
+        return "LENGTH";
+
+    }
+
+
+    //UC15 : Returns unit instance by name
+    @Override
+    public IMeasurable getUnitByName(
+
+            String unitName) {
+
+        return LengthUnit.valueOf(
+
+                unitName);
+
+    }
 
     //returns conversion factor to feet
     @Override
@@ -53,5 +72,7 @@ public enum LengthUnit implements IMeasurable {
 
         return name();
     }
+
+
 
 }
